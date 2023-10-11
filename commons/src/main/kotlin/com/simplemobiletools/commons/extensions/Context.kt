@@ -442,14 +442,6 @@ fun Context.getSizeFromContentUri(uri: Uri): Long {
 
 fun Context.getMyContentProviderCursorLoader() = CursorLoader(this, MyContentProvider.MY_CONTENT_URI, null, null, null, null)
 
-fun Context.getMyContactsCursor(favoritesOnly: Boolean, withPhoneNumbersOnly: Boolean) = try {
-    val getFavoritesOnly = if (favoritesOnly) "1" else "0"
-    val getWithPhoneNumbersOnly = if (withPhoneNumbersOnly) "1" else "0"
-    val args = arrayOf(getFavoritesOnly, getWithPhoneNumbersOnly)
-    CursorLoader(this, MyContactsContentProvider.CONTACTS_CONTENT_URI, null, null, args, null).loadInBackground()
-} catch (e: Exception) {
-    null
-}
 
 fun Context.getCurrentFormattedDateTime(): String {
     val simpleDateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
@@ -477,19 +469,10 @@ fun Context.getUriMimeType(path: String, newUri: Uri): String {
 fun Context.isThankYouInstalled() = isPackageInstalled("com.simplemobiletools.thankyou")
 
 fun Context.isOrWasThankYouInstalled(): Boolean {
-    return when {
-        resources.getBoolean(R.bool.pretend_thank_you_installed) -> true
-        baseConfig.hadThankYouInstalled -> true
-        isThankYouInstalled() -> {
-            baseConfig.hadThankYouInstalled = true
-            true
-        }
-
-        else -> false
-    }
+    return true
 }
 
-fun Context.isAProApp() = packageName.startsWith("com.simplemobiletools.") && packageName.removeSuffix(".debug").endsWith(".pro")
+fun Context.isAProApp() = true
 
 fun Context.getCustomizeColorsString(): String {
     val textId = if (isOrWasThankYouInstalled()) {
@@ -912,8 +895,6 @@ fun Context.getTextSize() = when (baseConfig.fontSize) {
 val Context.telecomManager: TelecomManager get() = getSystemService(Context.TELECOM_SERVICE) as TelecomManager
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 val Context.notificationManager: NotificationManager get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-val Context.shortcutManager: ShortcutManager get() = getSystemService(ShortcutManager::class.java) as ShortcutManager
-
 val Context.portrait get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 val Context.navigationBarOnSide: Boolean get() = usableScreenSize.x < realScreenSize.x && usableScreenSize.x > usableScreenSize.y
 val Context.navigationBarOnBottom: Boolean get() = usableScreenSize.y < realScreenSize.y
@@ -996,56 +977,7 @@ fun Context.isDefaultDialer(): Boolean {
     }
 }
 
-fun Context.getContactsHasMap(withComparableNumbers: Boolean = false, callback: (HashMap<String, String>) -> Unit) {
-    ContactsHelper(this).getContacts(showOnlyContactsWithNumbers = true) { contactList ->
-        val privateContacts: HashMap<String, String> = HashMap()
-        for (contact in contactList) {
-            for (phoneNumber in contact.phoneNumbers) {
-                var number = PhoneNumberUtils.stripSeparators(phoneNumber.value)
-                if (withComparableNumbers) {
-                    number = number.trimToComparableNumber()
-                }
 
-                privateContacts[number] = contact.name
-            }
-        }
-        callback(privateContacts)
-    }
-}
-
-@TargetApi(Build.VERSION_CODES.N)
-fun Context.getBlockedNumbersWithContact(callback: (ArrayList<BlockedNumber>) -> Unit) {
-    getContactsHasMap(true) { contacts ->
-        val blockedNumbers = ArrayList<BlockedNumber>()
-        if (!isNougatPlus() || !isDefaultDialer()) {
-            callback(blockedNumbers)
-        }
-
-        val uri = BlockedNumbers.CONTENT_URI
-        val projection = arrayOf(
-            BlockedNumbers.COLUMN_ID,
-            BlockedNumbers.COLUMN_ORIGINAL_NUMBER,
-            BlockedNumbers.COLUMN_E164_NUMBER,
-        )
-
-        queryCursor(uri, projection) { cursor ->
-            val id = cursor.getLongValue(BlockedNumbers.COLUMN_ID)
-            val number = cursor.getStringValue(BlockedNumbers.COLUMN_ORIGINAL_NUMBER) ?: ""
-            val normalizedNumber = cursor.getStringValue(BlockedNumbers.COLUMN_E164_NUMBER) ?: number
-            val comparableNumber = normalizedNumber.trimToComparableNumber()
-
-            val contactName = contacts[comparableNumber]
-            val blockedNumber = BlockedNumber(id, number, normalizedNumber, comparableNumber, contactName)
-            blockedNumbers.add(blockedNumber)
-        }
-
-        val blockedNumbersPair = blockedNumbers.partition { it.contactName != null }
-        val blockedNumbersWithNameSorted = blockedNumbersPair.first.sortedBy { it.contactName }
-        val blockedNumbersNoNameSorted = blockedNumbersPair.second.sortedBy { it.number }
-
-        callback(ArrayList(blockedNumbersWithNameSorted + blockedNumbersNoNameSorted))
-    }
-}
 
 @TargetApi(Build.VERSION_CODES.N)
 fun Context.getBlockedNumbers(): ArrayList<BlockedNumber> {

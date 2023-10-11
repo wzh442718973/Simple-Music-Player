@@ -235,17 +235,3 @@ private fun separateIntoIconAndOverflow(
     return Pair(iconActions, overflowActions)
 }
 
-@MyDevices
-@Composable
-private fun ActionMenuPreview() {
-    AppThemeSurface {
-        val actionMenus = remember {
-            listOf(
-                ActionItem(R.string.add_a_blocked_number, icon = Icons.Filled.Add, doAction = { }),
-                ActionItem(R.string.import_blocked_numbers, doAction = {}, overflowMode = OverflowMode.ALWAYS_OVERFLOW),
-                ActionItem(R.string.export_blocked_numbers, doAction = { }, overflowMode = OverflowMode.ALWAYS_OVERFLOW),
-            ).toImmutableList()
-        }
-        ActionMenu(items = actionMenus, numIcons = 2, isMenuVisible = true, onMenuToggle = { }, iconsColor = Color.Black)
-    }
-}

@@ -66,7 +66,7 @@ private fun SettingsPreferencePreview() {
     AppThemeSurface {
         SettingsPreferenceComponent(
             label = stringResource(id = R.string.language),
-            value = stringResource(id = R.string.translation_english),
+            value = "English",//wzh stringResource(id = R.string.translation_english),
             isPreferenceEnabled = true,
         )
     }

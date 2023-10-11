@@ -45,12 +45,3 @@ fun LinkifyTextComponent(
         }
     }
 }
-
-@Composable
-@MyDevices
-private fun LinkifyTextComponentPreview() = AppThemeSurface {
-    val source = stringResource(id = R.string.contributors_label)
-    LinkifyTextComponent {
-        source.fromHtml()
-    }
-}

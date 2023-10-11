@@ -80,25 +80,6 @@ fun Activity.appLaunched(appId: String) {
     }
 
     baseConfig.appRunCount++
-    if (baseConfig.appRunCount % 30 == 0 && !isAProApp()) {
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            showDonateOrUpgradeDialog()
-        }
-    }
-
-    if (baseConfig.appRunCount % 40 == 0 && !baseConfig.wasAppRated) {
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            RateStarsDialog(this)
-        }
-    }
-}
-
-fun Activity.showDonateOrUpgradeDialog() {
-    if (getCanAppBeUpgraded()) {
-        UpgradeToProDialog(this)
-    } else if (!isOrWasThankYouInstalled()) {
-        DonateDialog(this)
-    }
 }
 
 fun Activity.isAppInstalledOnSDCard(): Boolean = try {
@@ -1596,20 +1577,6 @@ fun BaseSimpleActivity.getAlarmSounds(type: Int, callback: (ArrayList<AlarmSound
     }
 }
 
-fun Activity.checkAppSideloading(): Boolean {
-    val isSideloaded = when (baseConfig.appSideloadingStatus) {
-        SIDELOADING_TRUE -> true
-        SIDELOADING_FALSE -> false
-        else -> isAppSideloaded()
-    }
-
-    baseConfig.appSideloadingStatus = if (isSideloaded) SIDELOADING_TRUE else SIDELOADING_FALSE
-    if (isSideloaded) {
-        showSideloadingDialog()
-    }
-
-    return isSideloaded
-}
 
 fun Activity.isAppSideloaded(): Boolean {
     return try {
@@ -1617,12 +1584,6 @@ fun Activity.isAppSideloaded(): Boolean {
         false
     } catch (e: Exception) {
         true
-    }
-}
-
-fun Activity.showSideloadingDialog() {
-    AppSideloadedDialog(this) {
-        finish()
     }
 }
 

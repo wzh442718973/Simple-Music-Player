@@ -10,7 +10,6 @@ import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.StringRes
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.extensions.normalizeString
-import com.simplemobiletools.commons.models.contacts.LocalContact
 import com.simplemobiletools.commons.overloads.times
 
 const val EXTERNAL_STORAGE_PROVIDER_AUTHORITY = "com.android.externalstorage.documents"
@@ -567,15 +566,6 @@ const val SHOW_NICKNAME_FIELD = 16384
 const val SHOW_IMS_FIELD = 32768
 const val SHOW_RINGTONE_FIELD = 65536
 
-const val DEFAULT_EMAIL_TYPE = ContactsContract.CommonDataKinds.Email.TYPE_HOME
-const val DEFAULT_PHONE_NUMBER_TYPE = ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
-const val DEFAULT_ADDRESS_TYPE = ContactsContract.CommonDataKinds.StructuredPostal.TYPE_HOME
-const val DEFAULT_EVENT_TYPE = ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY
-const val DEFAULT_ORGANIZATION_TYPE = ContactsContract.CommonDataKinds.Organization.TYPE_WORK
-const val DEFAULT_WEBSITE_TYPE = ContactsContract.CommonDataKinds.Website.TYPE_HOMEPAGE
-const val DEFAULT_IM_TYPE = ContactsContract.CommonDataKinds.Im.PROTOCOL_SKYPE
-const val DEFAULT_MIMETYPE = ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-
 // contact photo changes
 const val PHOTO_ADDED = 1
 const val PHOTO_REMOVED = 2
@@ -586,39 +576,5 @@ const val ON_CLICK_CALL_CONTACT = 1
 const val ON_CLICK_VIEW_CONTACT = 2
 const val ON_CLICK_EDIT_CONTACT = 3
 
-// apps with special handling
-const val TELEGRAM_PACKAGE = "org.telegram.messenger"
-const val SIGNAL_PACKAGE = "org.thoughtcrime.securesms"
-const val WHATSAPP_PACKAGE = "com.whatsapp"
-const val VIBER_PACKAGE = "com.viber.voip"
-const val THREEMA_PACKAGE = "ch.threema.app"
-
-const val SOCIAL_VOICE_CALL = 0
-const val SOCIAL_VIDEO_CALL = 1
-const val SOCIAL_MESSAGE = 2
-
-fun getEmptyLocalContact() = LocalContact(
-    0,
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    null,
-    "",
-    ArrayList(),
-    ArrayList(),
-    ArrayList(),
-    0,
-    ArrayList(),
-    "",
-    ArrayList(),
-    "",
-    "",
-    ArrayList(),
-    ArrayList(),
-    null
-)
 
 fun getProperText(text: String, shouldNormalize: Boolean) = if (shouldNormalize) text.normalizeString() else text

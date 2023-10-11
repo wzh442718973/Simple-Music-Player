@@ -8,8 +8,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.RemoteViews
 import com.simplemobiletools.commons.dialogs.ColorPickerDialog
-import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.extensions.adjustAlpha
+import com.simplemobiletools.commons.extensions.applyColorFilter
+import com.simplemobiletools.commons.extensions.getContrastColor
+import com.simplemobiletools.commons.extensions.getProperPrimaryColor
+import com.simplemobiletools.commons.extensions.onSeekBarChangeListener
+import com.simplemobiletools.commons.extensions.setFillWithStroke
+import com.simplemobiletools.commons.extensions.viewBinding
 import com.simplemobiletools.commons.helpers.IS_CUSTOMIZING_COLORS
 import com.simplemobiletools.musicplayer.R
 import com.simplemobiletools.musicplayer.databinding.WidgetConfigBinding
@@ -23,7 +28,6 @@ class WidgetConfigureActivity : SimpleActivity() {
     private var mBgColor = 0
     private var mTextColor = 0
     private var mBgColorWithoutTransparency = 0
-    private var mFeatureLockedDialog: FeatureLockedDialog? = null
 
     private val binding by viewBinding(WidgetConfigBinding::inflate)
 
@@ -57,21 +61,10 @@ class WidgetConfigureActivity : SimpleActivity() {
                 songInfoArtist.text = getString(com.simplemobiletools.commons.R.string.song_title)
             }
         }
-
-        if (!isCustomizingColors && !isOrWasThankYouInstalled()) {
-            mFeatureLockedDialog = FeatureLockedDialog(this) {
-                if (!isOrWasThankYouInstalled()) {
-                    finish()
-                }
-            }
-        }
     }
 
     override fun onResume() {
         super.onResume()
-        if (mFeatureLockedDialog != null && isOrWasThankYouInstalled()) {
-            mFeatureLockedDialog?.dismissDialog()
-        }
     }
 
     private fun initVariables() {
