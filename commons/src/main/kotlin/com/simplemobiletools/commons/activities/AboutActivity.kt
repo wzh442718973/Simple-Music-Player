@@ -37,7 +37,12 @@ class AboutActivity : ComponentActivity() {
             val context = LocalContext.current
             val resources = context.resources
             AppThemeSurface {
-                val fullVersion = "v1.1"
+                var fullVersion = "v1.0"
+                try{
+                    fullVersion = context.getString(R.string.app_version).format(packageManager.getPackageInfo(packageName, 0).versionName)
+                }catch (the : Throwable){
+
+                }
                 AboutScreen(
                     goBack = ::finish,
                     onPrivacyPolicyClick = ::onPrivacyPolicyClick,
