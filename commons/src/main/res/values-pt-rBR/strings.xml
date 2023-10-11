@@ -913,7 +913,7 @@
     <string name="privacy_policy">Política de Privacidade</string>
     <string name="version_placeholder">Versão %s</string>
     <string name="hello">Olá :)</string>
-    <string name="about_footer">Feito com ❤️ na Eslováquia</string>
+
     <string name="additional_info">Informações adicionais</string>
     <string name="app_version">Versão do app: %s</string>
     <string name="device_os">Sistema operacional: %s</string>

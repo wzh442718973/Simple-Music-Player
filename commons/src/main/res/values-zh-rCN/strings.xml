@@ -867,7 +867,7 @@
     <string name="privacy_policy">隐私政策</string>
     <string name="version_placeholder">版本 %s</string>
     <string name="hello">你好 :)</string>
-    <string name="about_footer">饱含 ❤️ 于斯洛伐克制作</string>
+
     <string name="additional_info">额外信息</string>
     <string name="app_version">应用版本：%s</string>
     <string name="device_os">设备系统：%s</string>

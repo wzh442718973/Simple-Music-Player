@@ -36,7 +36,6 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.compose.extensions.DEVELOPER_PLAY_STORE_URL
 import com.simplemobiletools.commons.databinding.DialogTitleBinding
 import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.dialogs.WritePermissionDialog.WritePermissionDialogMode
@@ -306,9 +305,6 @@ fun Activity.launchUpgradeToProIntent() {
     }
 }
 
-fun Activity.launchMoreAppsFromUsIntent() {
-    launchViewIntent(DEVELOPER_PLAY_STORE_URL)
-}
 
 fun Activity.launchViewIntent(id: Int) = launchViewIntent(getString(id))
 
