@@ -9,7 +9,7 @@ interface PlaylistsDao {
     fun insert(playlist: Playlist): Long
 
     @Delete
-    fun deletePlaylists(playlists: List<Playlist?>)
+    fun deletePlaylists(playlists: List<Playlist>)
 
     @Query("SELECT * FROM playlists")
     fun getAll(): List<Playlist>
@@ -20,6 +20,7 @@ interface PlaylistsDao {
     @Query("SELECT * FROM playlists WHERE id = :id")
     fun getPlaylistWithId(id: Int): Playlist?
 
+//    @Update(onConflict = OnConflictStrategy.REPLACE)
     @Update
     fun update(playlist: Playlist)
 }
