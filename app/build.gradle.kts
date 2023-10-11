@@ -98,6 +98,8 @@ android {
 
 dependencies {
     implementation(libs.simple.mobile.tools.commons)
+//    implementation(project(mapOf("path" to ":commons")))
+
     implementation(libs.eventbus)
     implementation(libs.androidx.media)
     implementation(libs.androidx.swiperefreshlayout)
