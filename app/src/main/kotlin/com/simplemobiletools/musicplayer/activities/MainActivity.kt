@@ -122,7 +122,6 @@ class MainActivity : SimpleMusicActivity() {
             val isPlaylistFragment = getCurrentFragment() is PlaylistsFragment
             findItem(R.id.create_new_playlist).isVisible = isPlaylistFragment
             findItem(R.id.create_playlist_from_folder).isVisible = isPlaylistFragment
-            findItem(R.id.import_playlist).isVisible = isPlaylistFragment && isOreoPlus()
         }
     }
 
@@ -148,7 +147,6 @@ class MainActivity : SimpleMusicActivity() {
                 R.id.sleep_timer -> showSleepTimer()
                 R.id.create_new_playlist -> createNewPlaylist()
                 R.id.create_playlist_from_folder -> createPlaylistFromFolder()
-                R.id.import_playlist -> tryImportPlaylist()
                 R.id.equalizer -> launchEqualizer()
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()

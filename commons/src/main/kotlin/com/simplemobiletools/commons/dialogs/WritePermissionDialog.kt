@@ -79,12 +79,9 @@ class WritePermissionDialog(activity: Activity, val writePermissionDialogMode: W
         when (writePermissionDialogMode) {
             WritePermissionDialogMode.Otg -> {
                 otgView.writePermissionsDialogOtgText.setText(R.string.confirm_usb_storage_access_text)
-                glide.load(R.drawable.img_write_storage_otg).transition(crossFade).into(otgView.writePermissionsDialogOtgImage)
             }
+            WritePermissionDialogMode.SdCard->{
 
-            WritePermissionDialogMode.SdCard -> {
-                glide.load(R.drawable.img_write_storage).transition(crossFade).into(sdCardView.writePermissionsDialogImage)
-                glide.load(R.drawable.img_write_storage_sd).transition(crossFade).into(sdCardView.writePermissionsDialogImageSd)
             }
 
             is WritePermissionDialogMode.OpenDocumentTreeSDK30 -> {
@@ -92,7 +89,6 @@ class WritePermissionDialog(activity: Activity, val writePermissionDialogMode: W
                 val humanizedPath = activity.humanizePath(writePermissionDialogMode.path)
                 otgView.writePermissionsDialogOtgText.text =
                     Html.fromHtml(activity.getString(R.string.confirm_storage_access_android_text_specific, humanizedPath))
-                glide.load(R.drawable.img_write_storage_sdk_30).transition(crossFade).into(otgView.writePermissionsDialogOtgImage)
 
                 otgView.writePermissionsDialogOtgImage.setOnClickListener {
                     dialogConfirmed()
@@ -102,7 +98,6 @@ class WritePermissionDialog(activity: Activity, val writePermissionDialogMode: W
             WritePermissionDialogMode.CreateDocumentSDK30 -> {
                 dialogTitle = R.string.confirm_folder_access_title
                 otgView.writePermissionsDialogOtgText.text = Html.fromHtml(activity.getString(R.string.confirm_create_doc_for_new_folder_text))
-                glide.load(R.drawable.img_write_storage_create_doc_sdk_30).transition(crossFade).into(otgView.writePermissionsDialogOtgImage)
 
                 otgView.writePermissionsDialogOtgImage.setOnClickListener {
                     dialogConfirmed()
@@ -214,7 +209,6 @@ private fun CreateDocumentSDK30(crossFadeTransition: DrawableTransitionOptions, 
     WritePermissionText(stringResource(R.string.confirm_create_doc_for_new_folder_text).fromHtml())
     WritePermissionImage(
         crossFadeTransition = crossFadeTransition,
-        drawable = R.drawable.img_write_storage_create_doc_sdk_30,
         modifier = Modifier.clickable(onClick = onImageClick)
     )
 }
@@ -228,7 +222,6 @@ private fun OpenDocumentTreeSDK30(crossFadeTransition: DrawableTransitionOptions
     WritePermissionText(stringResource(R.string.confirm_storage_access_android_text_specific, humanizedPath).fromHtml())
     WritePermissionImage(
         crossFadeTransition = crossFadeTransition,
-        drawable = R.drawable.img_write_storage_sdk_30,
         modifier = Modifier.clickable(onClick = onImageClick)
     )
 }
@@ -236,9 +229,9 @@ private fun OpenDocumentTreeSDK30(crossFadeTransition: DrawableTransitionOptions
 @Composable
 private fun SDCard(crossFadeTransition: DrawableTransitionOptions) {
     WritePermissionText(R.string.confirm_storage_access_text)
-    WritePermissionImage(crossFadeTransition = crossFadeTransition, drawable = R.drawable.img_write_storage)
+    WritePermissionImage(crossFadeTransition = crossFadeTransition)
     WritePermissionText(R.string.confirm_storage_access_text_sd)
-    WritePermissionImage(crossFadeTransition = crossFadeTransition, drawable = R.drawable.img_write_storage_sd)
+    WritePermissionImage(crossFadeTransition = crossFadeTransition)
 }
 
 @Composable
@@ -246,23 +239,15 @@ private fun OTG(
     crossFadeTransition: DrawableTransitionOptions
 ) {
     WritePermissionText(R.string.confirm_usb_storage_access_text)
-    WritePermissionImage(crossFadeTransition = crossFadeTransition, drawable = R.drawable.img_write_storage_otg)
+    WritePermissionImage(crossFadeTransition = crossFadeTransition)
 }
 
 @Composable
 private fun WritePermissionImage(
     modifier: Modifier = Modifier,
     crossFadeTransition: DrawableTransitionOptions,
-    @DrawableRes drawable: Int
 ) {
-    GlideImage(
-        modifier = modifier
-            .padding(horizontal = SimpleTheme.dimens.padding.extraLarge.plus(SimpleTheme.dimens.padding.large)),
-        model = drawable,
-        contentDescription = null,
-    ) { requestBuilder ->
-        requestBuilder.transition(crossFadeTransition)
-    }
+
 }
 
 @Composable

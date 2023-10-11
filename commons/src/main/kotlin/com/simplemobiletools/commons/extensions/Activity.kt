@@ -233,57 +233,7 @@ fun BaseSimpleActivity.isShowingAndroidSAFDialog(path: String): Boolean {
 }
 
 fun BaseSimpleActivity.isShowingOTGDialog(path: String): Boolean {
-    return if (!isRPlus() && isPathOnOTG(path) && (baseConfig.OTGTreeUri.isEmpty() || !hasProperStoredTreeUri(true))) {
-        showOTGPermissionDialog(path)
-        true
-    } else {
-        false
-    }
-}
-
-fun BaseSimpleActivity.showOTGPermissionDialog(path: String) {
-    runOnUiThread {
-        if (!isDestroyed && !isFinishing) {
-            WritePermissionDialog(this, WritePermissionDialogMode.Otg) {
-                Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-                    try {
-                        startActivityForResult(this, OPEN_DOCUMENT_TREE_OTG)
-                        checkedDocumentPath = path
-                        return@apply
-                    } catch (e: Exception) {
-                        type = "*/*"
-                    }
-
-                    try {
-                        startActivityForResult(this, OPEN_DOCUMENT_TREE_OTG)
-                        checkedDocumentPath = path
-                    } catch (e: ActivityNotFoundException) {
-                        toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
-                    } catch (e: Exception) {
-                        toast(R.string.unknown_error_occurred)
-                    }
-                }
-            }
-        }
-    }
-}
-
-fun Activity.launchPurchaseThankYouIntent() {
-    hideKeyboard()
-    try {
-        launchViewIntent("market://details?id=com.simplemobiletools.thankyou")
-    } catch (ignored: Exception) {
-        launchViewIntent(getString(R.string.thank_you_url))
-    }
-}
-
-fun Activity.launchUpgradeToProIntent() {
-    hideKeyboard()
-    try {
-        launchViewIntent("market://details?id=${baseConfig.appId.removeSuffix(".debug")}.pro")
-    } catch (ignored: Exception) {
-        launchViewIntent(getStoreUrl())
-    }
+    return false
 }
 
 
@@ -301,15 +251,6 @@ fun Activity.launchViewIntent(url: String) {
                 showErrorToast(e)
             }
         }
-    }
-}
-
-fun Activity.redirectToRateUs() {
-    hideKeyboard()
-    try {
-        launchViewIntent("market://details?id=${packageName.removeSuffix(".debug")}")
-    } catch (ignored: ActivityNotFoundException) {
-        launchViewIntent(getStoreUrl())
     }
 }
 

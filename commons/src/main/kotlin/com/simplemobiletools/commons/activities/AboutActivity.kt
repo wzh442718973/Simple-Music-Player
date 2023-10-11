@@ -21,7 +21,6 @@ import com.simplemobiletools.commons.compose.theme.AppThemeSurface
 import com.simplemobiletools.commons.extensions.baseConfig
 import com.simplemobiletools.commons.extensions.getStoreUrl
 import com.simplemobiletools.commons.extensions.launchViewIntent
-import com.simplemobiletools.commons.extensions.redirectToRateUs
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.APP_NAME
@@ -30,13 +29,6 @@ import com.simplemobiletools.commons.helpers.APP_VERSION_NAME
 class AboutActivity : ComponentActivity() {
     private val appName get() = intent.getStringExtra(APP_NAME) ?: ""
 
-    private var firstVersionClickTS = 0L
-    private var clicksSinceFirstClick = 0
-
-    companion object {
-        private const val EASTER_EGG_TIME_LIMIT = 3000L
-        private const val EASTER_EGG_REQUIRED_CLICKS = 7
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,16 +86,6 @@ class AboutActivity : ComponentActivity() {
             }
         } catch (e: Exception) {
             showErrorToast(e)
-        }
-    }
-
-    private fun launchRateUsPrompt(
-        showRateStarsDialog: () -> Unit
-    ) {
-        if (baseConfig.wasAppRated) {
-            redirectToRateUs()
-        } else {
-            showRateStarsDialog()
         }
     }
 
